@@ -1,0 +1,25 @@
+# Ignore development directories
+node_modules
+src
+tests
+__tests__
+
+# Ignore build configuration and metadata
+webpack.config.js
+jest.config.js
+tsconfig.json
+tsconfig.build.json
+.eslintrc
+.eslintrc.js
+.prettierrc
+.prettierrc.js
+.npmrc
+
+# Ignore documentation and environment files
+.gitignore
+.env*
+*.md
+
+# Ignore IDE/editor settings
+.vscode/
+.idea/
