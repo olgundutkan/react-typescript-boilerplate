@@ -15,11 +15,11 @@ export interface Item {
   createdBy: string;
 
   /** The date and time the item was created (ISO string) */
-  createdAt: string;
+  created_at: string;
 
   /** The date and time the item was last updated (optional, ISO string) */
-  updatedAt?: string;
+  updated_at?: string;
 
   /** The date and time the item was deleted (optional, ISO string) */
-  deletedAt?: string;
+  deleted_at?: string;
 }

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@store';
 import { Container, Typography, Paper, Stack, CircularProgress, Alert } from '@mui/material';
 import { getItemStart } from '@store/actions/item';
+import { formatDate } from '@utils/index';
 
 /**
  * ItemShowPage Component
@@ -20,9 +21,9 @@ const ItemShowPage: React.FC = () => {
     }
   }, [dispatch, id]);
 
-  const { selectedItem: item, loading, error } = useSelector((state: RootState) => state.item);
+  const { selectedItem: item, lastAction, lastActionLoading, lastActionError } = useSelector((state: RootState) => state.item);
 
-  if (loading) {
+  if (lastActionLoading) {
     return (
       <Container>
         <CircularProgress />
@@ -30,10 +31,10 @@ const ItemShowPage: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (lastActionError) {
     return (
       <Container>
-        <Alert severity="error">{error}</Alert>
+        <Alert severity="error">{lastActionError}</Alert>
       </Container>
     );
   }
@@ -57,10 +58,8 @@ const ItemShowPage: React.FC = () => {
           <Typography><strong>Name:</strong> {item.name}</Typography>
           <Typography><strong>Description:</strong> {item.description}</Typography>
           <Typography><strong>Created By:</strong> {item.createdBy}</Typography>
-          <Typography><strong>Created At:</strong> {new Date(item.createdAt).toLocaleString()}</Typography>
-          {item.updatedAt && (
-            <Typography><strong>Updated At:</strong> {new Date(item.updatedAt).toLocaleString()}</Typography>
-          )}
+          <Typography><strong>Created At:</strong> {formatDate(item.created_at)}</Typography>
+          <Typography><strong>Updated At:</strong> {formatDate(item.updated_at)}</Typography>
         </Stack>
       </Paper>
     </Container>

@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from '@components/modal/item';
 import { useDispatch } from 'react-redux';
 import { deleteItemStart } from '@store/actions/item';
+import { formatDate } from '@utils/index';
 
 /**
  * ItemTable Component
@@ -112,6 +113,7 @@ const ItemTable: React.FC<ItemTableProps> = ({ items }) => {
               <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell align="right">Created At</TableCell>
+              <TableCell align="right">Updated At</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -120,7 +122,8 @@ const ItemTable: React.FC<ItemTableProps> = ({ items }) => {
               <TableRow key={item.id}>
                 <TableCell>{item.name}</TableCell>
                 <TableCell>{item.description}</TableCell>
-                <TableCell align="right">{new Date(item.createdAt).toLocaleString()}</TableCell>
+                <TableCell align="right">{formatDate(item.created_at)}</TableCell>
+                <TableCell align="right">{formatDate(item.updated_at)}</TableCell>
                 <TableCell align="right">
                   <IconButton onClick={(e) => handleMenuClick(e, item.id)}>
                     <MoreVertIcon />

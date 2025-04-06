@@ -1,19 +1,22 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@store';
 import { getItemStart, updateItemStart } from '@store/actions/item';
 import { Container, Typography, CircularProgress, Alert } from '@mui/material';
 import ItemForm from '@components/form/item';
+import { BaseAction } from '@store/reducers/item';
 
 /**
  * ItemUpdatePage Component
  *
  * Displays a form to update an existing item.
  * Loads initial data from the Redux store.
+ * Navigates to the home page with a success message upon successful update.
  */
 const ItemUpdatePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -22,7 +25,7 @@ const ItemUpdatePage: React.FC = () => {
     }
   }, [dispatch, id]);
 
-  const { selectedItem: item, loading, error } = useSelector((state: RootState) => state.item);
+  const { selectedItem: item, lastAction, lastActionLoading, lastActionError, lastActionSuccessMessage } = useSelector((state: RootState) => state.item);
 
   /**
    * Handles form submission by dispatching updateItemStart action.
@@ -33,36 +36,33 @@ const ItemUpdatePage: React.FC = () => {
     dispatch(updateItemStart({ ...data, id: Number(id) }));
   };
 
-  if (loading) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container>
-        <Alert severity="error">{error}</Alert>
-      </Container>
-    );
-  }
-
-  if (!item) {
-    return (
-      <Container>
-        <Typography variant="h6">Item not found</Typography>
-      </Container>
-    );
-  }
+  React.useEffect(() => {
+    if (lastAction === BaseAction.UPDATE && lastActionSuccessMessage) {
+      navigate('/', { state: { message: lastActionSuccessMessage } });
+    }
+  }, [lastAction, lastActionSuccessMessage, navigate]);
 
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
         Update Item
       </Typography>
-      <ItemForm initialValues={item} onSubmit={handleSubmit} />
+  
+      {lastAction === BaseAction.UPDATE && lastActionLoading && (
+        <CircularProgress />
+      )}
+  
+      {lastAction === BaseAction.UPDATE && lastActionError && (
+        <Alert severity="error">{lastActionError}</Alert>
+      )}
+  
+      {lastAction === BaseAction.GET_ONE && !lastActionLoading && item && (
+        <ItemForm initialValues={item} onSubmit={handleSubmit} />
+      )}
+  
+      {lastAction === BaseAction.UPDATE && !lastActionLoading && !item && (
+        <Alert severity="error">Item not found</Alert>
+      )}
     </Container>
   );
 };

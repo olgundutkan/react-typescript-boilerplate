@@ -32,8 +32,9 @@ const ItemForm: React.FC<ItemFormProps> = ({
     initialValues = {},
     onSubmit
 }) => {
-    const [formState, setFormState] = React.useState<Partial<Item>>(initialValues);
     const navigate = useNavigate();
+
+    const [formState, setFormState] = React.useState<Partial<Item>>(() => ({ ...initialValues }));
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -67,14 +68,14 @@ const ItemForm: React.FC<ItemFormProps> = ({
                     onChange={handleChange}
                     required
                 />
-                <TextField
+                {/* <TextField
                     label="Description"
                     name="description"
                     value={formState.description || ''}
                     onChange={handleChange}
                     multiline
                     rows={4}
-                />
+                /> */}
                 <Stack direction="row" spacing={2}>
                     <Button variant="outlined" color="secondary" onClick={handleCancel}>
                         Cancel

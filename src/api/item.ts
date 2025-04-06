@@ -7,7 +7,7 @@ import { AxiosRequestConfig } from 'axios';
  * @returns Promise resolving with item list.
  */
 export const fetchItems = async <T>(config?: AxiosRequestConfig): Promise<T> => {
-    const response = await api.get<T>('', config);
+    const response = await api.get<T>(`brands`, config);
     return response.data;
 };
 
@@ -18,7 +18,7 @@ export const fetchItems = async <T>(config?: AxiosRequestConfig): Promise<T> => 
  * @returns Promise resolving with the item.
  */
 export const getItem = async <T>(id: number, config?: AxiosRequestConfig): Promise<T> => {
-    const response = await api.get<T>(`/${id}`, config);
+    const response = await api.get<T>(`brands/${id}`, config);
     return response.data;
 };
 
@@ -29,7 +29,7 @@ export const getItem = async <T>(id: number, config?: AxiosRequestConfig): Promi
  * @returns Promise resolving with the created item.
  */
 export const addItem = async <T, D>(data: D, config?: AxiosRequestConfig): Promise<T> => {
-    const response = await api.post<T>('', data, config);
+    const response = await api.post<T>(`brands`, data, config);
     return response.data;
 };
 
@@ -41,7 +41,7 @@ export const addItem = async <T, D>(data: D, config?: AxiosRequestConfig): Promi
  * @returns Promise resolving with the updated item.
  */
 export const updateItem = async <T, D>(id: number, data: D, config?: AxiosRequestConfig): Promise<T> => {
-    const response = await api.patch<T>(`/${id}`, data, config);
+    const response = await api.patch<T>(`brands/${id}`, data, config);
     return response.data;
 };
 
@@ -52,6 +52,6 @@ export const updateItem = async <T, D>(id: number, data: D, config?: AxiosReques
  * @returns Promise resolving with the deleted item response.
  */
 export const deleteItem = async <T>(id: number, config?: AxiosRequestConfig): Promise<T> => {
-    const response = await api.delete<T>(`/${id}`, config);
+    const response = await api.delete<T>(`brands/${id}`, config);
     return response.data;
 };

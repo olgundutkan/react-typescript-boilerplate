@@ -42,3 +42,15 @@ export const extractChangedFields = <T extends Record<string, any>>(original: T,
 
     return Object.keys(diff).length > 0 ? diff : null;
 };
+
+import dayjs from 'dayjs'
+
+export const formatDate = (
+    date: string | Date | null | undefined,
+    format: string = 'DD/MM/YYYY HH:mm:ss'
+): string => {
+    if (!date) {
+        return ''
+    }
+    return dayjs(date).format(format)
+}
