@@ -30,7 +30,7 @@ const ItemCreatePage: React.FC = () => {
 
   React.useEffect(() => {
     if (lastAction === BaseAction.CREATE && lastActionSuccessMessage) {
-      navigate('/', { state: { message: lastActionSuccessMessage } });
+      navigate('/');
     }
   }, [lastAction, lastActionSuccessMessage, navigate]);
 

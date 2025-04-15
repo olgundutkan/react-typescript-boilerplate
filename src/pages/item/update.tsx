@@ -38,7 +38,7 @@ const ItemUpdatePage: React.FC = () => {
 
   React.useEffect(() => {
     if (lastAction === BaseAction.UPDATE && lastActionSuccessMessage) {
-      navigate('/', { state: { message: lastActionSuccessMessage } });
+      navigate('/');
     }
   }, [lastAction, lastActionSuccessMessage, navigate]);
 

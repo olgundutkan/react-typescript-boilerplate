@@ -46,7 +46,6 @@ const itemSlice = createSlice({
       state.lastAction = BaseAction.INDEX;
       state.lastActionLoading = true;
       state.lastActionError = null;
-      state.lastActionSuccessMessage = null;
     },
     /**
      * Sets fetched items to state and stops loading.
@@ -185,13 +184,9 @@ const itemSlice = createSlice({
      * Clears error and success messages from state.
      */
     clearMessages(state) {
-      state.lastAction = null;
       state.lastActionError = null;
       state.lastActionSuccessMessage = null;
-      state.lastActionLoading = false;
-      state.selectedItem = undefined;
-      state.items = [];
-    },
+    }
   }
 });
 

@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest, delay } from 'redux-saga/effects';
 import {
   fetchItemsStart,
   fetchItemsSuccess,
@@ -14,7 +14,8 @@ import {
   deleteItemFailure,
   getItemStart,
   getItemSuccess,
-  getItemFailure
+  getItemFailure,
+  clearMessages
 } from '../reducers/item';
 import {
   fetchItems,
@@ -26,8 +27,6 @@ import {
 import { PayloadAction } from '@reduxjs/toolkit';
 import { Item } from '../types/item';
 
-
-
 /**
  * Handles fetching all items from the API.
  * Dispatches success or failure actions accordingly.
@@ -36,6 +35,8 @@ function* fetchItemsSaga(): Generator<any, void, any> {
   try {
     const response: Item[] = yield call(fetchItems);
     yield put(fetchItemsSuccess(response));
+    yield delay(3000);
+    yield put(clearMessages());
   } catch (error: any) {
     yield put(fetchItemsFailure(error.message));
   }
@@ -51,6 +52,8 @@ function* addItemSaga(action: PayloadAction<Item>): Generator<any, void, any> {
   try {
     const response: Item = yield call(addItem, action.payload);
     yield put(addItemSuccess(response));
+    yield delay(3000);
+    yield put(clearMessages());
   } catch (error: any) {
     yield put(addItemFailure(error.message));
   }
@@ -66,6 +69,8 @@ function* getItemSaga(action: PayloadAction<number>): Generator<any, void, any> 
   try {
     const response: Item = yield call(getItem, action.payload);
     yield put(getItemSuccess(response));
+    yield delay(3000);
+    yield put(clearMessages());
   } catch (error: any) {
     yield put(getItemFailure(error.message));
   }
@@ -81,6 +86,8 @@ function* updateItemSaga(action: PayloadAction<Item>): Generator<any, void, any>
   try {
     const response: Item = yield call(updateItem, action.payload.id, action.payload);
     yield put(updateItemSuccess(response));
+    yield delay(3000);
+    yield put(clearMessages());
   } catch (error: any) {
     yield put(updateItemFailure(error.message));
   }
@@ -96,6 +103,8 @@ function* deleteItemSaga(action: PayloadAction<number>): Generator<any, void, an
   try {
     yield call(deleteItem, action.payload);
     yield put(deleteItemSuccess(action.payload));
+    yield delay(3000);
+    yield put(clearMessages());
   } catch (error: any) {
     yield put(deleteItemFailure(error.message));
   }
@@ -110,5 +119,4 @@ export default function* itemSaga() {
   yield takeLatest(getItemStart.type, getItemSaga);
   yield takeLatest(updateItemStart.type, updateItemSaga);
   yield takeLatest(deleteItemStart.type, deleteItemSaga);
-
 }
